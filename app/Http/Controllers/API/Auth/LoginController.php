@@ -25,23 +25,23 @@ class LoginController extends Controller
             ], 422);
         }
 
-        // 🔍 Find user
+
         $user = User::where('email', $request->email)->first();
 
-        // ❌ Check password
+
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'message' => 'Invalid email or password',
             ], 401);
         }
 
-        // 🔐 Revoke old tokens (optional)
+
         $user->tokens()->delete();
 
-        // 🎟️ Generate token
-        $token = $user->createToken('auth_token')->plainTextToken;
 
-        // ✅ Return response
+        $token = $user->createToken('auth_tokens')->plainTextToken;
+
+      
         return response()->json([
             'message' => 'Login successful',
             'user' => [
