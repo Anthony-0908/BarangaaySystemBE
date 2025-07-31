@@ -43,7 +43,7 @@ class LoginController extends Controller
 
       
         return response()->json([
-            'message' => 'Login successful',
+            'message' => 'Logins successful',
             'user' => [
                 'id'    => $user->id,
                 'name'  => $user->name,
