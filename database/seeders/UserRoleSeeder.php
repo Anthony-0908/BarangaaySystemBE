@@ -22,7 +22,8 @@ class UserRoleSeeder extends Seeder
         $admin = User::firstOrCreate(
             ['email' => 'BRadmin@yopmail.com'],
             [
-                'name' => 'Test Barangay Captain Admin',
+                'first_name' => 'Test Barangay ',
+                'last_name' => ' Captain Admin',
                 'password' => bcrypt('Password@123')
             ]
         );
@@ -32,7 +33,8 @@ class UserRoleSeeder extends Seeder
         $secretary = User::firstOrCreate(
             ['email' => 'BRSecretary@yopmail.com'],
             [
-                'name' => 'Test Barangay Secretary',
+                'first_name' => 'Test Barangay ',
+                'last_name' => 'Secretary',
                 'password' => bcrypt('Password@123')
             ]
         );
@@ -42,7 +44,8 @@ class UserRoleSeeder extends Seeder
         $treasurer = User::firstOrCreate(
             ['email' => 'BRtreasurer@yopmail.com'],
             [
-                'name' => 'Test Barangay treasurer',
+                'first_name' => 'Test Barangay ',
+                'last_name' => 'Treasurer',
                 'password' => bcrypt('Password@123')
             ]
         );
@@ -51,7 +54,8 @@ class UserRoleSeeder extends Seeder
          $councilor = User::firstOrCreate(
             ['email' => 'BRcouncilor@yopmail.com'],
             [
-                'name' => 'Test Barangay councilor',
+                'first_name' => 'Test Barangay ',
+                'last_name' => 'Councilor',
                 'password' => bcrypt('Password@123'),
             ]
         );
