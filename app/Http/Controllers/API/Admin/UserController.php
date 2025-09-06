@@ -5,16 +5,32 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Requests\StoreUserRequest;
+use App\Http\Requests\StoreUserRequest;
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $users = User::with('roles')->get();
-        return response()->json($users);
+        $query = User::with('roles');
+
+        
+    if ($search = $request->input('search')) {
+        $query->where(function($q) use ($search) { 
+            $q->where('first_name', 'like', "%{$search}%")
+            ->orWhere('last_name', 'like', "%{$search}%")
+            ->orWhere('email', 'like', "%{$search}%");
+        });
+    }
+            $sortBy = $request->input('sortBy', 'created_at');
+            $sortDir = $request->input('sortDir' , 'desc');
+            $query->orderBy($sortBy, $sortDir);
+
+            $perPage = $request->input('perPage',10);
+            $users = $query->paginate($perPage);
+
+            return response()->json($users);
 
         // return response()->json(['message' => 'Try new ']);
     }
@@ -24,6 +40,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
+        $data = $request->validated();
+        $data['password'] = bcrypt($data['password']); // hash it
+
         $user = User::create($request->validated());
 
         return response()->json([
