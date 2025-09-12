@@ -20,4 +20,5 @@ Route::apiResource('/roles', RoleController::class);
 
 
 
-Route::post('/forgot-password',[])
+Route::post('/forgot-password', [PassworResetLinkController::class, 'sendResetLink']);
+Route::post('/reset-password', [PassworResetLinkController::class, 'resetPassword']);
