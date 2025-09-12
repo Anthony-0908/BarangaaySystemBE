@@ -17,3 +17,7 @@ Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'log
 
 Route::apiResource('/users', UserController::class);
 Route::apiResource('/roles', RoleController::class);
+
+
+
+Route::post('/forgot-password',[])
