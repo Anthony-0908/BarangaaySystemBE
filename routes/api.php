@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\LoginController;  
 use App\Http\Controllers\API\Admin\UserController; 
-
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -20,5 +20,5 @@ Route::apiResource('/roles', RoleController::class);
 
 
 
-Route::post('/forgot-password', [PassworResetLinkController::class, 'sendResetLink']);
-Route::post('/reset-password', [PassworResetLinkController::class, 'resetPassword']);
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'sendResetLink']);
+Route::post('/reset-password', [PasswordResetLinkController::class, 'resetPassword']);
