@@ -11,7 +11,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,13 +25,13 @@ class StoreUserRequest extends FormRequest
         //   'photo' => 'required|image|mimes:jpeg,png|max:2048', //photo validation
         'first_name' => 'required|string|max:255',
         'last_name' => 'required|string|max:255',
-          'email' => 'required|email|uniqque:users,email',
-          'password' => 'required|string|min:8|confirmed',
-          'phone_no' => 'nuullable|phone:PH', 
-          'birthdate' => 'required|date|date_format:m/d/y',
+        'email' => 'required|email|unique:users,email',
+          'password' => 'required|string|min:8',
+          'phone_no' => 'nullable', 
+          'birthdate' => 'required|date',
           'address'=> 'nullable|string|max:255',
           'gender' => 'nullable|in:male,female',
-          'role' => 'required',
+        //   'role' => 'required',
         ];
     }
 }
