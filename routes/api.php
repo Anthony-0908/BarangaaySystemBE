@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\LoginController;  
 use App\Http\Controllers\API\Admin\UserController; 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\API\Admin\RoleController;
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -16,6 +18,7 @@ Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'log
 
 
 Route::apiResource('/users', UserController::class);
+Route::apiResource('/roles', RoleController::class);
 Route::apiResource('/roles', RoleController::class);
 
 
