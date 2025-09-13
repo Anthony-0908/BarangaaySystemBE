@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\ResetPasswordNotification;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -48,4 +49,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function sendPasswordResetNotification($token)
+{
+    $url = config('app.frontend_url') . '/reset-password?token=' . $token . '&email=' . $this->email;
+
+    $this->notify(new ResetPasswordNotification($token, $url));
+}
 }
