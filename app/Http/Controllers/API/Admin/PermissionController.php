@@ -46,7 +46,7 @@ class PermissionController extends Controller
     $user = \App\Models\User::findOrFail($userId);
     $permissionName = $request->permission;
 
-    if ($user->hasPermissionTo($permissionName)) {
+    if ($user->hasPermissionTo($permissionName, 'api')) {
         $user->revokePermissionTo($permissionName);
         $status = 'revoked';
     } else {
