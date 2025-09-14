@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -23,23 +22,23 @@ class RoleSeeder extends Seeder
             'manage finances',
         ];
 
-        foreach ($permissions as $permission) 
-        {
-            Permission::firstOrCreate(['name' => $permission]);
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(
+                ['name' => $permission, 'guard_name' => 'api']
+            );
         }
 
-        // Create Roles 
-        $admin = Role::firstOrCreate(['name' => 'Admin']);
-        $secretary = Role::firstOrCreate(['name' => 'Secretary']);
-        $treasurer = Role::firstOrCreate(['name' => 'Treasurer']);
-        $councilor = Role::firstOrCreate(['name' => 'Councilor']);
+        // Create Roles with guard_name = api
+        $admin = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'api']);
+        $secretary = Role::firstOrCreate(['name' => 'Secretary', 'guard_name' => 'api']);
+        $treasurer = Role::firstOrCreate(['name' => 'Treasurer', 'guard_name' => 'api']);
+        $councilor = Role::firstOrCreate(['name' => 'Councilor', 'guard_name' => 'api']);
 
-            // Assign permissions
+        // Assign permissions
         $admin->givePermissionTo(Permission::all());
 
         $secretary->givePermissionTo(['view reports']);
         $treasurer->givePermissionTo(['view reports', 'manage finances']);
         $councilor->givePermissionTo(['view reports']);
-
     }
 }
