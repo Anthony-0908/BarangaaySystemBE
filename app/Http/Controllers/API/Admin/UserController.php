@@ -64,13 +64,17 @@ class UserController extends Controller
      */
     public function update(StoreUserRequest $request, User $user): JsonResponse
     {
-        $user = User::update($request->validated());
+        // Update the specific user with validated data
+        $user->update($request->validated());
+
+        $user['password'] = bcrypt($user['password']); 
 
         return response()->json([
-            'message' => 'Resident updated successfully',
-            'data'    => $resident
+            'message' => 'User updated successfully',
+            'data'    => $user   // return updated user
         ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
