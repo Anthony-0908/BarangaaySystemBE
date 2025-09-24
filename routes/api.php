@@ -17,12 +17,16 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
 
 
-Route::apiResource('/users', UserController::class);
-Route::apiResource('/roles', RoleController::class);
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::apiResource('/users', UserController::class);
+    Route::apiResource('/roles', RoleController::class);
 
 
-Route::post('/roles/{roleId}/toggle-permission', [PermissionController::class, 'togglePermission']);
-Route::post('/users/{userId}/toggle-permission', [PermissionController::class, 'toggleUserPermission']);
+    Route::post('/roles/{roleId}/toggle-permission', [PermissionController::class, 'togglePermission']);
+    Route::post('/users/{userId}/toggle-permission', [PermissionController::class, 'toggleUserPermission']);
+
+
+});
 
 
 
