@@ -10,9 +10,9 @@ use App\Http\Controllers\API\Admin\RoleController;
 use App\Http\Controllers\API\Admin\PermissionController;
 
 // Get authenticated user
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:sanctum');  
 
 // Auth
 Route::post('/login', [LoginController::class, 'login']);
@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'log
 // });
 
 // // Protected (admin only)
-Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:Admin'])->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('roles', RoleController::class);
 
@@ -36,6 +36,13 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     Route::post('users/{userId}/toggle-permission', [PermissionController::class, 'toggleUserPermission']);
 });
 
+
+Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
+    return response()->json([
+        'user' => $request->user(),
+        'roles' => $request->user()->getRoleNames(),
+    ]);
+});
 
 
 
