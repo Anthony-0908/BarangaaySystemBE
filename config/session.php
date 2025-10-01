@@ -169,7 +169,8 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+   'secure' => env('SESSION_SECURE_COOKIE', false), // MUST be false for http://localhost
+'same_site' => 'lax', // Must be 'lax' or null
 
     /*
     |--------------------------------------------------------------------------
