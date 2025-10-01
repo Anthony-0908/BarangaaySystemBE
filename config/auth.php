@@ -41,8 +41,9 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-        'driver' => 'sanctum',
+        'driver' => 'sanctum',  // or 'token' if using token driver
         'provider' => 'users',
+        'hash' => false,
     ],
     ],
 
