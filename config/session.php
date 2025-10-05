@@ -156,7 +156,8 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => 'localhost',   // or null if only localhost
+    'same_site' => 'lax',
 
     /*
     |--------------------------------------------------------------------------
