@@ -2,46 +2,28 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\ResetPasswordNotification;
-class User extends Authenticatable
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
+class User extends Authenticatable implements JWTSubject
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable,HasRoles;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    use HasFactory, Notifiable, HasRoles;
+
     protected $fillable = [
-        // 'photo',
         'first_name',
         'last_name',
         'email',
-        // 'address',
         'phone_no',
-        // 'gender',
         'birthdate',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-     protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token'];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -50,10 +32,29 @@ class User extends Authenticatable
         ];
     }
 
+    /** Send reset password link */
     public function sendPasswordResetNotification($token)
-{
-    $url = config('app.frontend_url') . '/reset-password?token=' . $token . '&email=' . $this->email;
+    {
+        $url = config('app.frontend_url') . '/reset-password?token=' . $token . '&email=' . $this->email;
+        $this->notify(new ResetPasswordNotification($token, $url));
+    }
 
-    $this->notify(new ResetPasswordNotification($token, $url));
-}
+    /** JWT Required Methods */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    /** Include role names automatically */
+    protected $appends = ['role_names'];
+
+    public function getRoleNamesAttribute()
+    {
+        return $this->roles->pluck('name');
+    }
 }
