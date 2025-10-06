@@ -8,9 +8,21 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller
 {
      // List all roles with permissions
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Role::with('permissions')->get());
+        $query = Role::with('permissions');
+
+        if($search = $request->input('search')){
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $sortBy = $request->input('sortBy', 'id');
+        $sortDir = $request->input('sortDir', 'desc');
+        $query->orderBy($sortBy, $sortDir);
+
+        $perPage = max((int) $request->input('perPage', 10), 1);
+        $roles = $query->paginate($perapage);
+        // return response()->json(Role::with('permissions')->get());
     }
 
     // Store new role
