@@ -21,8 +21,8 @@ class RoleController extends Controller
         $query->orderBy($sortBy, $sortDir);
 
         $perPage = max((int) $request->input('perPage', 10), 1);
-        $roles = $query->paginate($perapage);
-        // return response()->json(Role::with('permissions')->get());
+        $roles = $query->paginate($perPage);
+        return response()->json(Role::with('permissions')->get());
     }
 
     // Store new role
