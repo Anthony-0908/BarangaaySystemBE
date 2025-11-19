@@ -10,12 +10,6 @@ use App\Http\Requests\StoreUserRequest;
 
 class UserController extends Controller
 {
-    // public function __construct()
-    // {
-    //     // ✅ Only users with the "admin" role can access any method here
-    //     $this->middleware(['role:Admin']);
-    // }
-
     public function index(Request $request): JsonResponse
     {
         try {
@@ -24,8 +18,8 @@ class UserController extends Controller
             if ($search = $request->input('search')) {
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
-                      ->orWhere('last_name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%");
+                        ->orWhere('last_name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
                 });
             }
 
