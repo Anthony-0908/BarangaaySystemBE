@@ -17,10 +17,8 @@ class LoginController extends Controller
             return response()->json(['error' => 'Invalid email or password'], 401);
         }
 
-        // ✅ Get the authenticated user
         $user = Auth::guard('api')->user();
 
-        // ✅ Include Spatie roles & permissions
         $roles = $user->getRoleNames(); // returns a collection
         $permissions = $user->getAllPermissions()->pluck('name'); // returns permission names only
 
