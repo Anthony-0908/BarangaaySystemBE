@@ -23,14 +23,13 @@ Route::middleware('auth:api')->get('/me', function (Request $request) {
     ]);
 });
 
-// ----------------------------
-// 🧱 ADMIN PROTECTED ROUTES
-// ----------------------------
+
 Route::middleware(['auth:api', 'role:Admin'])->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('roles', RoleController::class);
 
     Route::post('roles/{roleId}/toggle-permission', [PermissionController::class, 'togglePermission']);
     Route::post('users/{userId}/toggle-permission', [PermissionController::class, 'toggleUserPermission']);
+    Route::post('permissions/bulk-insert', [PermissionController::class, 'bulkInsert']);
 });
 ?>
