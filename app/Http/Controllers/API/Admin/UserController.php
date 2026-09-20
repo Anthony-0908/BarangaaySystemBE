@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
+use App\Support\ApiResponse;
+use App\Support\PaginationResponse;
 
 class UserController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
         try {
             $query = User::with('roles');
@@ -30,11 +32,20 @@ class UserController extends Controller
             $perPage = max((int) $request->input('perPage', 10), 1);
             $users = $query->paginate($perPage);
 
-            return response()->json($users);
+            
+
+           return ApiResponse::success(
+             PaginationResponse::make($users),
+             'User retrieved successfully'
+             
+           );
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
+            return ApiResponse::error(
+                'Failed to retrieve users',
+                500,
+                ['message' => $e->getMessage()]
+            );
+
         }
     }
 

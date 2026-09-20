@@ -1,0 +1,29 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My Laravel API",
+        "description": "API documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/admin/roles": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "operationId": "b466fa89b00fce3695cc2531c5c0f670",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Roles",
+            "description": "Roles"
+        }
+    ]
+}
