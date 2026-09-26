@@ -5,9 +5,13 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use App\Support\ApiResponse;
+use App\Support\PaginationResponse;
+use OpenApi\Attributes as OA;
+
 class RoleController extends Controller
 {
-     // List all roles with permissions
+    
     public function index(Request $request)
     {
         $query = Role::with('permissions');
@@ -22,10 +26,14 @@ class RoleController extends Controller
 
         $perPage = max((int) $request->input('perPage', 10), 1);
         $roles = $query->paginate($perPage);
-        return response()->json(Role::with('permissions')->get());
+         return ApiResponse::success(
+             PaginationResponse::make($roles),
+             'Roles retrieved successfully'
+             
+           );
     }
 
-    // Store new role
+   
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -40,14 +48,14 @@ class RoleController extends Controller
         return response()->json($role, 201);
     }
 
-    // Show a role with permissions
+  
     public function show($id)
     {
         $role = Role::with('permissions')->findOrFail($id);
         return response()->json($role);
     }
 
-    // Update a role
+   
     public function update(Request $request, $id)
     {
         $role = Role::findOrFail($id);
